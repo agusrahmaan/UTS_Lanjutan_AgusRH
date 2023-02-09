@@ -1,0 +1,74 @@
+﻿@page "/"
+@using UTS_Lanjutan_AgusRH.Models;
+
+<PageTitle>Index</PageTitle>
+
+<style>
+    .card{
+        width: 500px;
+        display: flex;
+    }
+
+    .btn-primary{
+        width: 150px;
+    }
+
+    th{
+        text-align: center;
+    }
+</style>
+
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <h1>Koleksi Buku Kobi
+                    <button class="btn btn-primary" onclick="@AddBook">Add</button>
+                </h1>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Judul Buku</th>
+                            <th>Genre</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var bk in gen)
+                        {
+                            <tr>
+                                <td>@bk.GetBuku.ToString()</td>
+                                <td>@bk.Book</td>
+                                <td>
+                                    <button class="btn btn-danger" @onclick="(()=>Delete(bk))">Hapus</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    Genre genre;
+    List<Genre> gen = new List<Genre>();
+
+    public void AddBook()
+    {
+        Random random = new Random();
+
+        Buku randomBuku = (Buku)Enum
+        .GetValues(typeof(Buku))
+        .GetValue(random.Next(Enum.GetValues(typeof(Buku)).Length));
+
+        gen.Add(new Genre(randomBuku));
+    }
+
+    private void Delete(Genre gn)
+    {
+        gen.Remove(gn);
+    }
+}
